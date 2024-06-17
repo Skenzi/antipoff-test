@@ -7,7 +7,7 @@ interface UserStateProps {
 
 const initialState: UserStateProps = {}
 
-const usersSlice = createSlice({
+const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -17,5 +17,5 @@ const usersSlice = createSlice({
     }
 })
 
-export const {} = usersSlice
-export default usersSlice.reducer
+export const { initUser } = userSlice.actions
+export default userSlice.reducer

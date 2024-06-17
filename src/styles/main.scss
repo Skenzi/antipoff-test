@@ -1,0 +1,32 @@
+@import './reset.scss';
+
+#app {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-grid {
+    display: grid;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-right {
+    justify-content: right;
+}
+
+.flex-between {
+    justify-content: space-between;
+}
+
+.text-center {
+    text-align: center;
+}
+
+@import './modules.scss';

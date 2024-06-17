@@ -1,8 +1,15 @@
 
 
-const Header = () => {
+interface HeaderProps {
+    children: string | JSX.Element | JSX.Element[],
+}
+
+const Header = ({ children }: HeaderProps) => {
     return (
-        <header>Header</header>
+        <header className="header">
+            <button>Выход</button>
+            {children}
+        </header>
     )
 }
 

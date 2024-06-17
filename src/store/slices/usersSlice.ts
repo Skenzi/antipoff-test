@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { UserProps } from "../../types";
 
 interface UsersStateProps {
-    users: Array<UserProps>
+    users: UserProps[]
 }
 
 const initialState: UsersStateProps = {
@@ -19,5 +19,5 @@ const usersSlice = createSlice({
     }
 })
 
-export const {} = usersSlice
+export const { initUsers } = usersSlice.actions
 export default usersSlice.reducer
