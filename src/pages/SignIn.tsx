@@ -5,18 +5,18 @@ const SignIn = () => {
 
     }
     return (
-        <section className="">
-            <h2>Регистрация</h2>
+        <section className="form-wrapper">
+            <h2 className="form-title">Авторизация</h2>
             <form onSubmit={submitHandler}>
-                <label>
-                    <span>Электронная почта</span>
-                    <input />
+                <label className="form-group">
+                    <span className="form-group__title">Электронная почта</span>
+                    <input className="form-group__input" placeholder="Электронная почта" />
                 </label>
-                <label>
-                    <span>Пароль</span>
-                    <input />
+                <label className="form-group">
+                    <span className="form-group__title">Пароль</span>
+                    <input className="form-group__input" placeholder="Пароль" />
                 </label>
-                <button type="submit">Войти</button>
+                <button className="form__button" type="submit">Войти</button>
             </form>
         </section>
     )

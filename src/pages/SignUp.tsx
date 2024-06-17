@@ -5,26 +5,26 @@ const SignUp = () => {
 
     }
     return (
-        <section className="">
-            <h2>Регистрация</h2>
-            <form onSubmit={submitHandler}>
-                <label>
-                    <span>Имя</span>
-                    <input />
+        <section className="form-wrapper">
+            <h2 className="form-title">Регистрация</h2>
+            <form className="form" onSubmit={submitHandler}>
+                <label className="form-group">
+                    <span className="form-group__title">Имя</span>
+                    <input className="form-group__input" placeholder="Имя" />
                 </label>
-                <label>
-                    <span>Электронная почта</span>
-                    <input />
+                <label className="form-group">
+                    <span className="form-group__title">Электронная почта</span>
+                    <input className="form-group__input" placeholder="Электронная почта" type="email" />
                 </label>
-                <label>
-                    <span>Пароль</span>
-                    <input />
+                <label className="form-group">
+                    <span className="form-group__title">Пароль</span>
+                    <input className="form-group__input"  placeholder="Пароль" type="password" />
                 </label>
-                <label>
-                    <span>Подтвердить пароль</span>
-                    <input />
+                <label className="form-group">
+                    <span className="form-group__title">Подтвердить пароль</span>
+                    <input className="form-group__input" placeholder="Подтвердить пароль" type="password" />
                 </label>
-                <button type="submit">Зарегистрироваться</button>
+                <button className="form__button" type="submit">Зарегистрироваться</button>
             </form>
         </section>
     )

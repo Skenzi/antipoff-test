@@ -1,6 +1,6 @@
 import { useAppSelectore } from "../hooks";
 import UserCard from "../components/UserCard";
-import ArrowIcon from '../components/ArrowIcon';
+import ArrowIcon from '../ui-kit/ArrowIcon';
 
 const CardList = () => {
     const users = useAppSelectore((state) => state.usersState.users);
@@ -8,14 +8,10 @@ const CardList = () => {
         <div className="card-list">
             {users.map((user) => <UserCard key={user.id} user={user} />)}
         </div>
-        <div>
-            <button>
+            <button className="card-list__button">
                 Показать еще
-                <div>
-                    <ArrowIcon />
-                </div>
+                <ArrowIcon />
             </button>
-        </div>
     </div>
 }
 

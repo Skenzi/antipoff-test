@@ -1,8 +1,8 @@
+import { ReactChildrenProp } from "../types"
 
-
-const Button = () => {
-    return <button>
-
+const Button = ({ children }: ReactChildrenProp) => {
+    return <button className="button">
+        {children}
     </button>
 }
 

@@ -1,13 +1,8 @@
-
-
-interface HeaderProps {
-    children: string | JSX.Element | JSX.Element[],
-}
-
-const Header = ({ children }: HeaderProps) => {
+import type { ReactChildrenProp } from "../types"
+const Header = ({ children }: ReactChildrenProp) => {
     return (
-        <header className="header">
-            <button>Выход</button>
+        <header className="header text-center">
+            <button className="header__button">Выход</button>
             {children}
         </header>
     )

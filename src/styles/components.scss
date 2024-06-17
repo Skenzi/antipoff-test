@@ -1,0 +1,25 @@
+.user-card {
+    position: relative;
+    padding: 36px 20px 20px;
+    box-shadow: 0px 1px 3.98px 0px #33333326;
+    border-radius: 10px;
+    border: 1px solid transparent;
+
+    &:hover {
+        border: 1px solid #000000;
+    }
+
+    &__avatar {
+        border-radius: 50%;
+    }
+
+    &__name {
+        margin: 16px 0;
+    }
+
+    &__button {
+        position: relative;
+        bottom: 0;
+        right: -40%;
+    }
+}

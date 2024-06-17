@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useAppDispatch } from '../hooks/index';
 import { initUsers } from "../store/slices/usersSlice";
+import { useNavigate } from "react-router-dom";
 import Header from '../modules/Header';
 import CardList from '../modules/CardList'
 
