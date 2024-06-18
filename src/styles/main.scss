@@ -50,6 +50,7 @@ h2 {
     &-wrapper {
         position: absolute;
         max-width: 500px;
+        width: 100%;
         padding: 16px;
         top: 50%;
         left: 50%;
@@ -69,8 +70,23 @@ h2 {
             width: 100%;
             padding: 16px;
             border-radius: 10px;
-            background-color: var(--gray-light)
+            background-color: var(--gray-light);
+
+            &--invalid {
+                border: 1px solid var(--red);
+                outline-color: var(--red);
+            }
         }
+    }
+    &-footer {
+        margin-top: 14px;
+        padding-top: 8px;
+        border-top: 1px solid var(--gray);
+        text-align: center;
+    }
+    &__error {
+        margin-top: 9px;
+        color: var(--red);
     }
     &__button {
         width: 100%;

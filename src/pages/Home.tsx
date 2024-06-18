@@ -4,10 +4,13 @@ import { initUsers } from "../store/slices/usersSlice";
 import { useNavigate } from "react-router-dom";
 import Header from '../modules/Header';
 import CardList from '../modules/CardList'
+import { getToken } from '../features/authorize';
 
 const Home = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate()
     useEffect(() => {
+        if(!getToken()) navigate('/signin')
         fetch("https://reqres.in/api/users").then((res) => res.json()).then(({data}) => {
             dispatch(initUsers(data))
         })
