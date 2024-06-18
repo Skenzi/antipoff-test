@@ -3,7 +3,6 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    justify-content: right;
 
     padding: 64px 297px;
 
@@ -12,19 +11,26 @@
 
     &__button {
         position: absolute;
-        top: 32px;
-        right: 80px;
         padding: 8px 16px;
 
         border: 1px solid var(--gray-light);
         border-radius: 10px;
         color: var(--white);
+
+        &--right {
+            top: 32px;
+            right: 80px;
+        }
+        &--left {
+            top: 32px;
+            left: 80px;
+        }
     }
 }
 
 .card-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 305px);
     gap: 20px;
 
     &-wrapper {

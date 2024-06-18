@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import './colors.scss';
 @import './reset.scss';
+@import './ui-kit.scss';
+@import './components.scss';
+@import './modules.scss';
 
 h1 {
     font-weight: 400;
@@ -14,9 +17,17 @@ h2 {
     line-height: 23.44px;
 }
 
+p:nth-of-type(1n+2) {
+    margin-top: 1.2em;
+}
+
 #app {
     max-width: 1440px;
     margin: 0 auto;
+}
+
+.m-t-24 {
+    margin-top: 24px;
 }
 
 .d-flex {
@@ -31,16 +42,24 @@ h2 {
     flex-wrap: wrap;
 }
 
-.flex-right {
+.justify-center {
+    justify-content: center;
+}
+
+.justify-right {
     justify-content: right;
 }
 
-.flex-between {
+.justify-between {
     justify-content: space-between;
 }
 
 .text-center {
     text-align: center;
+}
+
+.avatar {
+    border-radius: 50%;
 }
 
 .form {
@@ -62,9 +81,6 @@ h2 {
         margin-top: 16px;
         flex-wrap: wrap;
         width: 100%;
-        &__title {
-            
-        }
         &__input {
             margin-top: 9px;
             width: 100%;
@@ -98,6 +114,35 @@ h2 {
     }
 }
 
-@import './ui-kit.scss';
-@import './components.scss';
-@import './modules.scss';
+.profile {
+    &-header {
+        padding-left: 188px;
+        align-items: center;
+
+        &__subtitle {
+            margin-top: 16px;
+            font-size: 32px;
+            line-height: 37.5px;
+        }
+
+        &__bio {
+            margin-left: 25px;
+        }
+
+        &__avatar {
+            width: 187px;
+            height: 187px;
+        }
+    }
+    &-info {
+        display: flex;
+        padding: 49px 305px 49px 188px;
+        &__contacts {
+            margin-left: 129px;
+
+            & svg {
+                margin-right: 8px;
+            }
+        }
+    }
+}
