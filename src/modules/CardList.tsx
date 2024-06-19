@@ -1,17 +1,27 @@
-import { useAppSelectore } from "../hooks";
+
+import { useAppDispatch, useAppSelectore } from "../hooks";
 import UserCard from "../components/UserCard";
 import ArrowIcon from '../ui-kit/ArrowIcon';
+import { addViewedUsers } from "../store/slices/usersSlice";
 
 const CardList = () => {
-    const users = useAppSelectore((state) => state.usersState.users);
+    const users = useAppSelectore((state) => state.usersState.visibleUsers);
+    const allUsers = useAppSelectore((state) => state.usersState.users)
+    const isAllUsers = users.length === allUsers.length;
+    const dispatch = useAppDispatch()
+    const showMoreUsers = () => {
+        dispatch(addViewedUsers(4))
+    }
     return <div className="card-list-wrapper">
         <div className="card-list">
-            {users.map((user) => <UserCard key={user.id} user={user} />)}
+            {users.map((user) => {
+                return <UserCard key={user.id} user={user} />
+            })}
         </div>
-            <button className="card-list__button">
-                Показать еще
-                <ArrowIcon />
-            </button>
+        {isAllUsers ? null : <button className="button card-list__button" onClick={showMoreUsers}>
+            Показать еще
+            <ArrowIcon />
+        </button>}
     </div>
 }
 

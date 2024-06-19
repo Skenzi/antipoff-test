@@ -10,6 +10,8 @@
     }
 
     &__avatar {
+        width: 124px;
+        height: 124px;
         border-radius: 50%;
     }
 
@@ -21,5 +23,9 @@
         position: relative;
         bottom: 0;
         right: -40%;
+
+        &--liked path {
+            fill: var(--black)
+        }
     }
 }

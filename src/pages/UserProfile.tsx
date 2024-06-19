@@ -3,13 +3,19 @@ import { useAppSelectore } from "../hooks";
 import Header from "../modules/Header";
 import EmailIcon from '../ui-kit/EmailIcon'
 import PhoneIcon from '../ui-kit/PhoneIcon'
+import { useEffect } from "react";
+import { getToken } from "../features/authorize";
+import BackButton from '../ui-kit/BackButton';
 
 const UserProfile = () => {
     const currUser = useAppSelectore((state) => state.usersState.selectedUser);
     const navigate = useNavigate()
+    useEffect(() => {
+        if(!getToken()) navigate('/signin')
+    })
     return <>
         <Header classess="profile-header">
-            <button className="header__button header__button--left" onClick={() => navigate('/')}>Назад</button>
+            <BackButton classess="header__button header__button--left" />
             <img alt="user avatar" src={currUser.avatar} className="avatar profile-header__avatar" />
             <section className="profile-header__bio">
                 <h1>{currUser.first_name + ' ' + currUser.last_name}</h1>

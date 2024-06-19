@@ -1,16 +1,20 @@
 import { FormEvent, useEffect, useState } from "react";
-import { isValidEmail, validateData } from "../features/validation";
+import { isValidEmail } from "../features/validation";
 import { useNavigate, Link } from "react-router-dom";
 import { getToken } from "../features/authorize";
+import { useAppDispatch } from "../hooks";
+import { initUser } from "../store/slices/userSlice";
+import { signin } from "../features/api";
 
 const SignIn = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('eve.holt@reqres.in'); 
+    const [password, setPassword] = useState('cityslicka');
     const [emailError, setEmailError] = useState('');
     const [webError, setWebError] = useState('');
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {
-        if(getToken()) navigate('/')
+        if (getToken()) navigate('/')
     })
     const submitHandler = (ev: FormEvent) => {
         ev.preventDefault()
@@ -18,16 +22,15 @@ const SignIn = () => {
             email,
             password,
         })
-        // Логика отправки данных
-        const responce = new Promise((resolve, reject) => {
-            //reject('Web error')
-            return resolve('token1234')
-        })
-        responce.then((data: string) => {
-            localStorage.setItem('token', data)
+        const response = signin(dataForSend);
+        response.then((data: { token: string}) => {
+            sessionStorage.setItem('token', data.token)
+            dispatch(initUser(data))
             navigate('/')
+            console.log('go')
         }).catch((error) => {
             setWebError(error)
+            console.log(error, 124)
         })
     }
     return (
@@ -39,7 +42,7 @@ const SignIn = () => {
                     <input className="form-group__input" value={email} required placeholder="Электронная почта" onInput={(ev) => {
                         setEmailError('')
                         setEmail(ev.currentTarget.value)
-                        if(!isValidEmail(ev.currentTarget.value)) setEmailError('No valid email')
+                        if (!isValidEmail(ev.currentTarget.value)) setEmailError('No valid email')
                     }} />
                     {emailError ? <div className="form__error">{emailError}</div> : null}
                 </label>

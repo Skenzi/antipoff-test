@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react"
-import { useNavigate, redirect } from "react-router-dom";
-import { isValidEmail, isValidUsername, validateData} from '../features/validation';
+import { useNavigate } from "react-router-dom";
+import { isValidEmail, isValidUsername, validateData } from '../features/validation';
+import { signup } from "../features/api";
 
 const errorsDefault = {
     username: '',
@@ -18,12 +19,12 @@ const SignUp = () => {
     const navigate = useNavigate()
     const submitHandler = (ev: FormEvent) => {
         ev.preventDefault();
-        const newErros = {...errorsDefault};
-        newErros.email = validateData(email, isValidEmail);
-        newErros.username = validateData(username, isValidUsername);
-        newErros.confirmPassword = password === confirmPassword ? '' : 'Не совпадают';
-        if(newErros.email || newErros.username || newErros.confirmPassword) {
-            setErrors(newErros)
+        const newErrors = { ...errorsDefault };
+        newErrors.email = validateData(email, isValidEmail);
+        newErrors.username = validateData(username, isValidUsername);
+        newErrors.confirmPassword = password === confirmPassword ? '' : 'Не совпадают';
+        if (newErrors.email || newErrors.username || newErrors.confirmPassword) {
+            setErrors(newErrors)
             return
         }
         const dataForSend = JSON.stringify({
@@ -31,20 +32,14 @@ const SignUp = () => {
             username,
             email
         })
-        // Логика отправки данных
-        const responce = new Promise((resolve, reject) => {
-            //reject('Bad bad bad');
-            return resolve(JSON.stringify({token: 'token123'}))
-        })
-        responce.then((data: string) => {
+        const response = signup(dataForSend);
+        response.then((data: string) => {
             const parsedData = JSON.parse(data);
-            localStorage.setItem('token', parsedData.token)
+            sessionStorage.setItem('token', parsedData.token)
             navigate('/')
-        }).catch((data) => {
-            // Логика обработки ошибок
-            setWebError(data)
+        }).catch((error) => {
+            setWebError(error)
         })
-        //navigate('/')
     }
     return (
         <section className="form-wrapper">
@@ -53,20 +48,20 @@ const SignUp = () => {
                 <label className="form-group">
                     <span className="form-group__title">Имя</span>
                     <input required className={`form-group__input ${errors.username && 'form-group__input--invalid'}`} value={username} maxLength={16} onChange={(ev) => {
-                        setErrors({...errors, username: ''})
+                        setErrors({ ...errors, username: '' })
                         setUsername(ev.target.value)
-                        if(!isValidUsername(ev.currentTarget.value)) setErrors({...errors, username: 'No valid username'})
+                        if (!isValidUsername(ev.currentTarget.value)) setErrors({ ...errors, username: 'No valid username' })
                     }} placeholder="Имя" />
-                    {errors.username ? <div  className="form__error">{errors.username}</div> : null}
+                    {errors.username ? <div className="form__error">{errors.username}</div> : null}
                 </label>
                 <label className="form-group">
                     <span className="form-group__title">Электронная почта</span>
                     <input className={`form-group__input ${errors.email && 'form-group__input--invalid'}`} required placeholder="Электронная почта" value={email} onInput={(ev) => {
-                        setErrors({...errors, email: ''})
+                        setErrors({ ...errors, email: '' })
                         setEmail(ev.currentTarget.value)
-                        if(!isValidEmail(ev.currentTarget.value)) setErrors({...errors, email: 'No valid email'})
+                        if (!isValidEmail(ev.currentTarget.value)) setErrors({ ...errors, email: 'No valid email' })
                     }} type="email" />
-                    {errors.email ? <div  className="form__error">{errors.email}</div> : null}
+                    {errors.email ? <div className="form__error">{errors.email}</div> : null}
                 </label>
                 <label className="form-group">
                     <span className="form-group__title">Пароль</span>
@@ -79,7 +74,7 @@ const SignUp = () => {
                     <input className={`form-group__input ${errors.confirmPassword && 'form-group__input--invalid'}`} required placeholder="Подтвердить пароль" value={confirmPassword} onChange={(ev) => {
                         setConfirmPassword(ev.target.value)
                     }} type="password" />
-                    {errors.confirmPassword ? <div  className="form__error">{errors.confirmPassword}</div> : null}
+                    {errors.confirmPassword ? <div className="form__error">{errors.confirmPassword}</div> : null}
                 </label>
                 {webError ? <div className="form__error">{webError}</div> : null}
                 <button className="form__button" type="submit">Зарегистрироваться</button>

@@ -62,6 +62,17 @@ p:nth-of-type(1n+2) {
     border-radius: 50%;
 }
 
+.massage-box {
+    max-width: 505px;
+    margin: 0 auto;
+    padding: 20px 0;
+    margin-top: 25px;
+    box-shadow: 0 0 10px var(--gray);
+    color: var(--black);
+    font-size: 34px;
+    text-align: center;
+}
+
 .form {
     display: flex;
     flex-wrap: wrap;
@@ -138,10 +149,77 @@ p:nth-of-type(1n+2) {
         display: flex;
         padding: 49px 305px 49px 188px;
         &__contacts {
-            margin-left: 129px;
+            margin-left: 109px;
 
             & svg {
                 margin-right: 8px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .profile {
+        &-header {
+            padding-left: 128px;
+            justify-content: center;
+            &__subtitle {
+                margin-top: 0;
+                font-size: 20px;
+            }
+            &__avatar {
+                order: 2;
+            }
+            &__bio {
+                margin-left: 0;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+        }
+        &-info {
+            padding: 32px 16px;
+            &__contacts {
+                margin-left: 8px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 426px) {
+    h1 {
+        font-size: 32px;
+    }
+    .massage-box {
+        max-width: 285px;
+    }
+    .profile {
+        &-header {
+            padding-left: 44px;
+            justify-content: center;
+            &__subtitle {
+                margin-top: 0;
+                font-size: 20px;
+            }
+            &__avatar {
+                order: 2;
+            }
+            &__bio {
+                order: 1;
+                margin-left: 0;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+        }
+        &-info {
+            padding: 32px 16px;
+            flex-direction: column;
+            & div {
+                order: 2;
+            }
+            &__contacts {
+                margin-left: 0;
+                margin-bottom: 20px;
+                order: 1;
             }
         }
     }
