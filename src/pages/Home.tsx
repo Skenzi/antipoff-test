@@ -17,7 +17,7 @@ const Home = () => {
     useEffect(() => {
         const token = getToken();
         if(!token) navigate('/signin')
-        const authResponse = signin(token);
+        const authResponse = new Promise((res, rej) => res('user')); // должно быть signin(token), но regres не принимает токен :С 
         authResponse.then((data) => {
             const likedUsers = JSON.parse(sessionStorage.getItem('likedUsers'));
             const user: AuthorizedUserProps = {

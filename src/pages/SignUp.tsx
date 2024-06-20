@@ -50,7 +50,7 @@ const SignUp = () => {
                     <input required className={`form-group__input ${errors.username && 'form-group__input--invalid'}`} value={username} maxLength={16} onChange={(ev) => {
                         setErrors({ ...errors, username: '' })
                         setUsername(ev.target.value)
-                        if (!isValidUsername(ev.currentTarget.value)) setErrors({ ...errors, username: 'No valid username' })
+                        if (!isValidUsername(ev.currentTarget.value)) setErrors({ ...errors, username: 'Не соответствует шаблону' })
                     }} placeholder="Имя" />
                     {errors.username ? <div className="form__error">{errors.username}</div> : null}
                 </label>
@@ -59,7 +59,7 @@ const SignUp = () => {
                     <input className={`form-group__input ${errors.email && 'form-group__input--invalid'}`} required placeholder="Электронная почта" value={email} onInput={(ev) => {
                         setErrors({ ...errors, email: '' })
                         setEmail(ev.currentTarget.value)
-                        if (!isValidEmail(ev.currentTarget.value)) setErrors({ ...errors, email: 'No valid email' })
+                        if (!isValidEmail(ev.currentTarget.value)) setErrors({ ...errors, email: 'Не соответствует шаблону' })
                     }} type="email" />
                     {errors.email ? <div className="form__error">{errors.email}</div> : null}
                 </label>

@@ -1,14 +1,22 @@
 import { FormEvent, useEffect, useState } from "react";
-import { isValidEmail } from "../features/validation";
+import { isValidEmail, validateData } from "../features/validation";
 import { useNavigate, Link } from "react-router-dom";
 import { getToken } from "../features/authorize";
 import { signin } from "../features/api";
 
+const defaultErrors = {
+    email: '',
+    password: ''
+}
+
 const SignIn = () => {
     const [email, setEmail] = useState('eve.holt@reqres.in'); 
     const [password, setPassword] = useState('cityslicka');
-    const [emailError, setEmailError] = useState('');
     const [webError, setWebError] = useState('');
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    });
     const navigate = useNavigate()
     useEffect(() => {
         if (getToken()) navigate('/')
@@ -19,6 +27,13 @@ const SignIn = () => {
             email,
             password,
         })
+        const newErrors = {...defaultErrors}
+        newErrors.email = validateData(email, isValidEmail)
+        newErrors.password = password === '' ? 'Не соответствует шаблону' : ''
+        if(newErrors.email || newErrors.password) {
+            setErrors(newErrors);
+            return;
+        }
         const response = signin(dataForSend);
         response.then((data: { token: string}) => {
             sessionStorage.setItem('token', data.token)
@@ -35,15 +50,16 @@ const SignIn = () => {
                 <label className="form-group">
                     <span className="form-group__title">Электронная почта</span>
                     <input className="form-group__input" value={email} required placeholder="Электронная почта" onInput={(ev) => {
-                        setEmailError('')
+                        setErrors({...defaultErrors})
                         setEmail(ev.currentTarget.value)
-                        if (!isValidEmail(ev.currentTarget.value)) setEmailError('No valid email')
+                        setErrors({...errors, email: validateData(email, isValidEmail)})
                     }} />
-                    {emailError ? <div className="form__error">{emailError}</div> : null}
+                    {errors.email ? <div className="form__error">{errors.email}</div> : null}
                 </label>
                 <label className="form-group">
                     <span className="form-group__title">Пароль</span>
                     <input className="form-group__input" type="password" value={password} onInput={(ev) => setPassword(ev.currentTarget.value)} required placeholder="Пароль" />
+                    {errors.password ? <div className="form__error">{errors.password}</div> : null}
                 </label>
                 {webError ? <div className="form__error">{webError}</div> : null}
                 <button className="form__button" type="submit">Войти</button>

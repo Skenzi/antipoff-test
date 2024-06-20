@@ -64,6 +64,27 @@ module.exports = () => {
         
     } else {
         config.mode = 'development';
+
+        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW({
+            exclude: [/\.(?:png|jpg|jpeg|svg|js)$/],
+            runtimeCaching: [{
+
+                urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+
+
+                handler: 'CacheFirst',
+
+                options: {
+
+                    cacheName: 'images',
+
+
+                    expiration: {
+                        maxEntries: 20,
+                    }
+                }
+            }]
+        }));
     }
     return config;
 };

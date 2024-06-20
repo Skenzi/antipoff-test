@@ -13,7 +13,6 @@ const UserCard = ({ user }: CardProps) => {
     const navigate = useNavigate()
     const fullName = `${user.first_name} ${user.last_name}`
     const { likedUsers } = useAppSelectore((state) => state.userState.user)
-    console.log(likedUsers)
     const isLiked = likedUsers.includes(user.id)
     return <section className="user-card" onClick={() => {
         dispatch(setUserById(user.id));

@@ -1,11 +1,19 @@
-self.addEventListener('install', (event) => {
-    console.log('Установлен');
-});
+const CACHE = 'cache-only-v1';
+const timeout = 600;
 
-self.addEventListener('activate', (event) => {
-    console.log('Активирован');
+function fromCache(request) {
+    return caches.open(CACHE).then((cache) =>
+      cache.match(request)
+          .then((matching) => matching || Promise.reject('no-match'))
+    );
+}
+
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE).then((cache) => cache.addAll(['/img/background']))
+    )
 });
 
 self.addEventListener('fetch', (event) => {
-    console.log('Происходит запрос на сервер');
+    event.respondWith(fromCache(event.request))
 });
