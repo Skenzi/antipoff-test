@@ -60,11 +60,6 @@ module.exports = () => {
         config.plugins.push(new MiniCssExtractPlugin());
         
         
-        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
-        
-    } else {
-        config.mode = 'development';
-
         config.plugins.push(new WorkboxWebpackPlugin.GenerateSW({
             exclude: [/\.(?:png|jpg|jpeg|svg|js)$/],
             runtimeCaching: [{
@@ -85,6 +80,10 @@ module.exports = () => {
                 }
             }]
         }));
+        
+    } else {
+        config.mode = 'development';
+
     }
     return config;
 };
