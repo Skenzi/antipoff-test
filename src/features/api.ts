@@ -11,7 +11,7 @@ export const signin = async (data: string) => {
         })
         return response.json()
     } catch(error) {
-        return error
+        return new Error(error)
     }
 }
 
@@ -26,7 +26,7 @@ export const signup = async (data: string) => {
         })
         return response.json()
     } catch(error) {
-        return error
+        return new Error(error)
     }
 }
 
@@ -40,6 +40,20 @@ export const getUsers = async (countUsers: number) => {
         })
         return response.json()
     } catch(error) {
-        return `Возникла ошибка: ${error}`
+        return new Error(error)
+    }
+}
+
+export const updateAvatar = async (id: number, file: File) => {
+    try {
+        const response = await fetch(`https://reqres.in/api/user/${id}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": file.type,
+            },
+            body: file
+        })
+    } catch(error) {
+        throw new Error(error)
     }
 }

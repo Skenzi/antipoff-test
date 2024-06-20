@@ -6,9 +6,11 @@ import PhoneIcon from '../ui-kit/PhoneIcon'
 import { useEffect } from "react";
 import { getToken } from "../features/authorize";
 import BackButton from '../ui-kit/BackButton';
+import FileUpload from '../components/FileUpload';
 
 const UserProfile = () => {
-    const currUser = useAppSelectore((state) => state.usersState.selectedUser);
+    const selectedUser = useAppSelectore((state) => state.usersState.selectedUser);
+    const authorizedUser = useAppSelectore((state) => state.userState.user);
     const navigate = useNavigate()
     useEffect(() => {
         if(!getToken()) navigate('/signin')
@@ -16,10 +18,13 @@ const UserProfile = () => {
     return <>
         <Header classess="profile-header">
             <BackButton classess="header__button header__button--left" />
-            <img alt="user avatar" src={currUser.avatar} className="avatar profile-header__avatar" />
+            <div>
+                <img alt="user avatar" src={authorizedUser.id === selectedUser.id ? authorizedUser.avatar : selectedUser.avatar} className="avatar profile-header__avatar" />
+                {authorizedUser.id === selectedUser.id ? <FileUpload /> : null}
+            </div>
             <section className="profile-header__bio">
-                <h1>{currUser.first_name + ' ' + currUser.last_name}</h1>
-                <p className="profile-header__subtitle">{currUser.email}</p>
+                <h1>{selectedUser.first_name + ' ' + selectedUser.last_name}</h1>
+                <p className="profile-header__subtitle">{selectedUser.email}</p>
             </section>
         </Header>
         <main className="profile-info">
@@ -45,8 +50,8 @@ const UserProfile = () => {
                 </div>
                 <div className="d-flex m-t-24">
                     <EmailIcon />
-                    <a href={`mailto:${currUser.email}`}>
-                        {currUser.email}
+                    <a href={`mailto:${selectedUser.email}`}>
+                        {selectedUser.email}
                     </a>
                 </div>
             </address>

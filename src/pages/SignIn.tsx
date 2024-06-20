@@ -2,8 +2,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { isValidEmail } from "../features/validation";
 import { useNavigate, Link } from "react-router-dom";
 import { getToken } from "../features/authorize";
-import { useAppDispatch } from "../hooks";
-import { initUser } from "../store/slices/userSlice";
 import { signin } from "../features/api";
 
 const SignIn = () => {
@@ -11,7 +9,6 @@ const SignIn = () => {
     const [password, setPassword] = useState('cityslicka');
     const [emailError, setEmailError] = useState('');
     const [webError, setWebError] = useState('');
-    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {
         if (getToken()) navigate('/')
@@ -25,12 +22,10 @@ const SignIn = () => {
         const response = signin(dataForSend);
         response.then((data: { token: string}) => {
             sessionStorage.setItem('token', data.token)
-            dispatch(initUser(data))
+            sessionStorage.setItem('likedUsers', JSON.stringify([1,4,6,3]))
             navigate('/')
-            console.log('go')
         }).catch((error) => {
             setWebError(error)
-            console.log(error, 124)
         })
     }
     return (

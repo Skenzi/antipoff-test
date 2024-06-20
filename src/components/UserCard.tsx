@@ -13,6 +13,7 @@ const UserCard = ({ user }: CardProps) => {
     const navigate = useNavigate()
     const fullName = `${user.first_name} ${user.last_name}`
     const { likedUsers } = useAppSelectore((state) => state.userState.user)
+    console.log(likedUsers)
     const isLiked = likedUsers.includes(user.id)
     return <section className="user-card" onClick={() => {
         dispatch(setUserById(user.id));
@@ -23,7 +24,7 @@ const UserCard = ({ user }: CardProps) => {
         <LikeButton likeHandler={(ev) => {
             ev.stopPropagation()
             dispatch(likeUserHandler(user.id))
-        }} classess={`user-card__button${isLiked ? '' : ' user-card__button--liked'}`} />
+        }} classess={`user-card__button${!isLiked ? '' : ' user-card__button--liked'}`} />
     </section>
 }
 

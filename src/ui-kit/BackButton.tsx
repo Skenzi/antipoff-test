@@ -9,7 +9,7 @@ const BackButton = ({ classess }: BackButtonProps) => {
     const navigate = useNavigate()
     const deviceWidth = window.innerWidth
     return (
-        <button className={'button '+classess} onClick={() => navigate('/')}>
+        <button className={'button '+classess} onClick={() => navigate(-1)}>
             {deviceWidth > 400 ? 'Назад' : <ArrowIcon size={{ width: '18px', height: '18px' }} color='#FFFFFF' />}
         </button>
     )

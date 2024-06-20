@@ -6,7 +6,8 @@ import Header from '../modules/Header';
 import CardList from '../modules/CardList'
 import { getToken } from '../features/authorize';
 import { initUser } from "../store/slices/userSlice";
-import { getUsers } from '../features/api'
+import { getUsers, signin } from '../features/api'
+import { AuthorizedUserProps } from "../types";
 
 const Home = () => {
     const dispatch = useAppDispatch();
@@ -16,18 +17,23 @@ const Home = () => {
     useEffect(() => {
         const token = getToken();
         if(!token) navigate('/signin')
-        // отправка токена на сервер
-        const user = {
-            "id": 1,
-            "email": "george.bluth@reqres.in",
-            "first_name": "George",
-            "last_name": "Bluth",
-            "avatar": "https://reqres.in/img/faces/1-image.jpg",
-            "likedUsers": [1,3,4]
-        }
-        dispatch(initUser(user))
-        const response = getUsers(16)
-        response.then(({data}) => {
+        const authResponse = signin(token);
+        authResponse.then((data) => {
+            const likedUsers = JSON.parse(sessionStorage.getItem('likedUsers'));
+            const user: AuthorizedUserProps = {
+                "id": 1,
+                "email": "george.bluth@reqres.in",
+                "first_name": "George",
+                "last_name": "Bluth",
+                "avatar": "https://reqres.in/img/faces/1-image.jpg",
+                "likedUsers": likedUsers
+            }
+            dispatch(initUser(user))
+        }).catch((error) => {
+            setWebError(error)
+        })
+        const usersResponse = getUsers(16)
+        usersResponse.then(({data}) => {
             dispatch(initUsers(data))
             setIsSuccess(true)
         }).catch((error) => {

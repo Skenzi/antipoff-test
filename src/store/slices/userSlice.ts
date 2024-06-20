@@ -5,7 +5,16 @@ interface UserStateProps {
     user?: AuthorizedUserProps
 }
 
-const initialState: UserStateProps = {}
+const initialState: UserStateProps = {
+    user: {
+        "id": 0,
+        "email": "",
+        "first_name": "",
+        "last_name": "",
+        "avatar": "",
+        "likedUsers": []
+    }
+}
 
 const userSlice = createSlice({
     name: 'user',
@@ -13,7 +22,6 @@ const userSlice = createSlice({
     reducers: {
         initUser: (state, action) => {
             state.user = action.payload
-            state.user.likedUsers = [1,4,5,6]
         },
         likeUserHandler: (state, action) => {
             const isLiked = state.user.likedUsers.includes(action.payload);
@@ -22,10 +30,17 @@ const userSlice = createSlice({
             } else {
                 state.user.likedUsers.push(action.payload);
             }
+            sessionStorage.setItem('likedUsers', JSON.stringify(state.user.likedUsers))
             // Отправка данных на сервер
+        },
+        avatarHandler: (state, action) => {
+            state.user = {
+                ...state.user,
+                avatar: action.payload
+            }
         }
     }
 })
 
-export const { initUser, likeUserHandler } = userSlice.actions
+export const { initUser, likeUserHandler, avatarHandler } = userSlice.actions
 export default userSlice.reducer

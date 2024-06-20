@@ -33,8 +33,8 @@ const SignUp = () => {
             email
         })
         const response = signup(dataForSend);
-        response.then((data: string) => {
-            const parsedData = JSON.parse(data);
+        response.then((data: { token: string }) => {
+            const parsedData = data;
             sessionStorage.setItem('token', parsedData.token)
             navigate('/')
         }).catch((error) => {
