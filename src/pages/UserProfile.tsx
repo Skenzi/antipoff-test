@@ -1,20 +1,30 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelectore } from "../hooks";
 import Header from "../modules/Header";
 import EmailIcon from '../ui-kit/EmailIcon'
 import PhoneIcon from '../ui-kit/PhoneIcon'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getToken } from "../features/authorize";
 import BackButton from '../ui-kit/BackButton';
 import FileUpload from '../components/FileUpload';
+import { getUser } from "../features/api";
+import { UserProps } from "../types";
 
 const UserProfile = () => {
-    const selectedUser = useAppSelectore((state) => state.usersState.selectedUser);
+    const [selectedUser, setSelectedUser] = useState<UserProps>(null);
     const authorizedUser = useAppSelectore((state) => state.userState.user);
+    const params = useParams();
     const navigate = useNavigate()
     useEffect(() => {
         if(!getToken()) navigate('/signin')
-    })
+        const response = getUser(params?.id)
+        response.then(({data}) => {
+            setSelectedUser(data)
+        }).catch((error) => {
+            navigate(-1)
+        })
+    }, [])
+    if(!selectedUser) return <div className="message-box">Идет загрузка данных...</div>
     return <>
         <Header classess="profile-header">
             <BackButton classess="header__button header__button--left" />

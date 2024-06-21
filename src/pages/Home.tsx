@@ -49,7 +49,7 @@ const Home = () => {
             <h2 className="text-center">Это опытные специалисты, хорошо разбирающиеся во всех задачах, которые ложатся на их плечи, и умеющие находить выход из любых, даже самых сложных ситуаций.</h2>
         </Header>
         <main>
-            {isSuccess ? <CardList /> : <div className="massage-box">{webError ? `Ошибка: ${webError}` : 'Пожалуйста подождите...'}</div>}
+            {isSuccess ? <CardList /> : <div className="message-box">{webError ? `Ошибка: ${webError}` : 'Пожалуйста подождите...'}</div>}
         </main>
     </>
 }
