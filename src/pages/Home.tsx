@@ -31,6 +31,7 @@ const Home = () => {
             }
             dispatch(initUser(user))
         }).catch((error) => {
+            setIsSuccess(false)
             setWebError(error)
         })
         const usersResponse = getUsers(16)

@@ -15,7 +15,7 @@ export const validateData = (value: string, cb: (payload: string) => boolean) =>
         return 'Обязательно заполнить'
     }
     if(!cb(value)) {
-        return 'Неправильно'
+        return 'Не соответствует шаблону'
     }
     return ''
 }

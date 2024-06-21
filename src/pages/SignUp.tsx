@@ -20,12 +20,14 @@ const SignUp = () => {
 
     const usernameHandler: ChangeEventHandler<HTMLInputElement> = (ev) => {
         setUsername(ev.target.value)
-        if (!isValidUsername(ev.currentTarget.value)) setErrors({ ...errors, username: 'Не соответствует шаблону' })
+        const error = validateData(ev.currentTarget.value, isValidUsername)
+        if (error) setErrors({ ...errors, username: error })
     }
 
     const emailHandler: ChangeEventHandler<HTMLInputElement> = (ev) => {
         setEmail(ev.currentTarget.value)
-        if (!isValidEmail(ev.currentTarget.value)) setErrors({ ...errors, email: 'Не соответствует шаблону' })
+        const error = validateData(ev.currentTarget.value, isValidEmail)
+        if (error) setErrors({ ...errors, email: error })
     }
 
     const submitHandler = (ev: FormEvent) => {

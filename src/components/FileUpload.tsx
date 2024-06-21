@@ -8,7 +8,7 @@ interface FileUploadProps {
     classess?: string
 }
 
-const UploadFile = ({classess = ''}: FileUploadProps) => {
+const UploadFile = ({ classess = '' }: FileUploadProps) => {
     const [fileError, setFileError] = useState<string>('')
     const refInput = useRef<HTMLInputElement>(null)
     const authorizedUser = useAppSelectore((state) => state.userState.user)
@@ -16,7 +16,7 @@ const UploadFile = ({classess = ''}: FileUploadProps) => {
 
     const triggerChangeAvatar = () => {
         setFileError('')
-        if(refInput.current) {
+        if (refInput.current) {
             refInput.current.click()
         }
     }
@@ -32,7 +32,7 @@ const UploadFile = ({classess = ''}: FileUploadProps) => {
         })
     }
 
-    return <div className={'upload-file-box '+classess}>
+    return <div className={'upload-file-box ' + classess}>
         <input className="upload-file-input" accept="image/png, image/jpeg, image/jpg" type="file" onChange={changeAvatar} ref={refInput} />
         {fileError ? <div className="upload-file-error">{fileError}</div> : null}
         <button className="button upload-file-button" onClick={triggerChangeAvatar}>Изменить аватар</button>
