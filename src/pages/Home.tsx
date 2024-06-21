@@ -19,14 +19,15 @@ const Home = () => {
         if(!token) navigate('/signin')
         const authResponse = new Promise((res, rej) => res('user')); // должно быть signin(token), но regres не принимает токен :С 
         authResponse.then((data) => {
-            const likedUsers = JSON.parse(sessionStorage.getItem('likedUsers'));
+            const likedUsers = JSON.parse(sessionStorage.getItem('likedUsers')); // должен извлекаться из данных пользователя, но тк такого поля  нет будет пока так
+            if(!likedUsers) sessionStorage.setItem('likedUsers', JSON.stringify([1,4,6,3]))
             const user: AuthorizedUserProps = {
                 "id": 1,
                 "email": "george.bluth@reqres.in",
                 "first_name": "George",
                 "last_name": "Bluth",
                 "avatar": "https://reqres.in/img/faces/1-image.jpg",
-                "likedUsers": likedUsers
+                "likedUsers": JSON.parse(sessionStorage.getItem('likedUsers'))
             }
             dispatch(initUser(user))
         }).catch((error) => {

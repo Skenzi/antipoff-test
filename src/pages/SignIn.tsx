@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { isValidEmail, validateData } from "../features/validation";
 import { useNavigate, Link } from "react-router-dom";
 import { getToken } from "../features/authorize";
@@ -21,6 +21,11 @@ const SignIn = () => {
     useEffect(() => {
         if (getToken()) navigate('/')
     })
+    const emailHandler: ChangeEventHandler<HTMLInputElement> = (ev) => {
+        setErrors({...defaultErrors})
+        setEmail(ev.currentTarget.value)
+        setErrors({...errors, email: validateData(email, isValidEmail)})
+    } 
     const submitHandler = (ev: FormEvent) => {
         ev.preventDefault()
         const dataForSend = JSON.stringify({
@@ -37,7 +42,6 @@ const SignIn = () => {
         const response = signin(dataForSend);
         response.then((data: { token: string}) => {
             sessionStorage.setItem('token', data.token)
-            sessionStorage.setItem('likedUsers', JSON.stringify([1,4,6,3]))
             navigate('/')
         }).catch((error) => {
             setWebError(error)
@@ -49,11 +53,7 @@ const SignIn = () => {
             <form noValidate onSubmit={submitHandler}>
                 <label className="form-group">
                     <span className="form-group__title">Электронная почта</span>
-                    <input className="form-group__input" value={email} required placeholder="Электронная почта" onInput={(ev) => {
-                        setErrors({...defaultErrors})
-                        setEmail(ev.currentTarget.value)
-                        setErrors({...errors, email: validateData(email, isValidEmail)})
-                    }} />
+                    <input className="form-group__input" value={email} required placeholder="Электронная почта" onInput={emailHandler} />
                     {errors.email ? <div className="form__error">{errors.email}</div> : null}
                 </label>
                 <label className="form-group">

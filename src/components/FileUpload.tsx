@@ -25,7 +25,7 @@ const UploadFile = ({classess = ''}: FileUploadProps) => {
         const file = event.currentTarget.files[0];
         const fileResponse = getImageBuffer(file);
         fileResponse.then((data) => {
-            //updateAvatar(authorizedUser.id, file); обновление данных на сервере
+            //updateAvatar(authorizedUser.id, file); обновление данных на сервере, reges не принимает
             dispatch(avatarHandler(data))
         }).catch((error) => {
             setFileError(error)
