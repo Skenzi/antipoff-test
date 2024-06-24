@@ -1,39 +1,16 @@
 import { useEffect, useState } from "react"
-import { useAppDispatch } from '../hooks/index';
+import { useAppDispatch } from '../hooks/storeHooks';
 import { initUsers } from "../store/slices/usersSlice";
-import { useNavigate } from "react-router-dom";
 import Header from '../modules/Header';
 import CardList from '../modules/CardList'
-import { getToken } from '../features/authorize';
-import { initUser } from "../store/slices/userSlice";
-import { getUsers, signin } from '../features/api'
-import { AuthorizedUserProps } from "../types";
+import { getUsers, signin } from '../utils/api'
+import { getToken } from "../utils/authorize";
 
 const Home = () => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate()
     const [isSuccess, setIsSuccess] = useState(false)
     const [webError, setWebError] = useState('')
     useEffect(() => {
-        const token = getToken();
-        if(!token) navigate('/signin')
-        const authResponse = new Promise((res, rej) => res('user')); // должно быть signin(token), но regres не принимает токен :С 
-        authResponse.then((data) => {
-            const likedUsers = JSON.parse(sessionStorage.getItem('likedUsers')); // должен извлекаться из данных пользователя, но тк такого поля  нет будет пока так
-            if(!likedUsers) sessionStorage.setItem('likedUsers', JSON.stringify([1,4,6,3]))
-            const user: AuthorizedUserProps = {
-                "id": 1,
-                "email": "george.bluth@reqres.in",
-                "first_name": "George",
-                "last_name": "Bluth",
-                "avatar": "https://reqres.in/img/faces/1-image.jpg",
-                "likedUsers": JSON.parse(sessionStorage.getItem('likedUsers'))
-            }
-            dispatch(initUser(user))
-        }).catch((error) => {
-            setIsSuccess(false)
-            setWebError(error)
-        })
         const usersResponse = getUsers(16)
         usersResponse.then(({data}) => {
             dispatch(initUsers(data))

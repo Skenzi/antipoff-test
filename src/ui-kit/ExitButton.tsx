@@ -1,7 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import ExitIcon from './ExitIcon';
-import { removeToken } from '../features/authorize'
+import { removeToken } from '../utils/authorize'
 import { useState } from 'react';
 
 interface ExitButtonProps {

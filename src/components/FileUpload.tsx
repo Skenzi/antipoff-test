@@ -1,8 +1,8 @@
 import { ChangeEventHandler, useRef, useState } from "react";
-import { updateAvatar } from "../features/api";
-import { useAppDispatch, useAppSelectore } from "../hooks";
+import { updateAvatar } from "../utils/api";
+import { useAppDispatch, useAppSelectore } from "../hooks/storeHooks";
 import { avatarHandler } from "../store/slices/userSlice";
-import { getImageBuffer } from '../features/filesApi';
+import { getImageBuffer } from '../utils/filesApi';
 
 interface FileUploadProps {
     classess?: string

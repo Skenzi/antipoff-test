@@ -1,5 +1,5 @@
 
-import { useAppDispatch, useAppSelectore } from "../hooks";
+import { useAppDispatch, useAppSelectore } from "../hooks/storeHooks";
 import UserCard from "../components/UserCard";
 import ArrowIcon from '../ui-kit/ArrowIcon';
 import { addViewedUsers } from "../store/slices/usersSlice";

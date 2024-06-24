@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelectore } from "../hooks";
+import { useAppDispatch, useAppSelectore } from "../hooks/storeHooks";
 import type { UserProps } from "../types"
 import LikeButton from '../ui-kit/LikeButton';
 import { likeUserHandler } from "../store/slices/userSlice";
@@ -14,7 +14,7 @@ const UserCard = ({ user }: CardProps) => {
     const { likedUsers } = useAppSelectore((state) => state.userState.user)
     const isLiked = likedUsers.includes(user.id)
     return <section className="user-card" onClick={() => {
-        navigate(`/profile/${user.id}`)
+        navigate(`/user/${user.id}`)
     }}>
         <img alt="user-avatar" src={user.avatar} className="avatar user-card__avatar" />
         <h2 className="user-card__name">{fullName}</h2>
