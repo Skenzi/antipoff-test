@@ -1,7 +1,7 @@
-import { FormEvent, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { isValidEmail, isValidPassword, isValidUsername, validateData } from '../utils/validation';
-import { Formik, Field, Form, FormikHelpers, FormikValues, ErrorMessage } from "formik";
+import { Formik, Field, ErrorMessage, FormikHelpers, FormikValues, Form } from "formik";
 import { registerUser } from "../utils/api";
 import { setToken } from "../utils/authorize";
 
@@ -12,28 +12,29 @@ interface FormValuesProps {
     confirmPassword: string
 }
 
-const SignUpForm = () => {
-    const [webError, setWebError] = useState('')
-    const navigate = useNavigate()
-
-    const handleSubmit = (values: FormValuesProps) => {
-        console.log('enter in Subm')
-        const dataJson = JSON.stringify(values)
-        const response = registerUser(dataJson)
-        response.then((data) => {
-            console.log(data)
-            setToken(data)
-            navigate('/')
-        }).catch((error) => {
-            setWebError(error)
-        })
-    }
-
-    const initialValues: FormValuesProps = {
+const initialValues: FormValuesProps = {
         username: '',
         email: '',
         password: '',
         confirmPassword: ''
+    }
+
+const SignUpForm = () => {
+    const [webError, setWebError] = useState('')
+    const navigate = useNavigate()
+
+    const handleSubmit = (values: FormValuesProps, { setSubmitting }: FormikHelpers<FormikValues>) => {
+        setSubmitting(true)
+        setWebError('')
+        const dataJson = JSON.stringify(values)
+        const response = registerUser(dataJson)
+        response.then(({data, error}) => {
+            if(error) throw Error(error)
+            setToken(data)
+            navigate('/')
+        }).catch((error) => {
+            setWebError(error.message)
+        }).finally(() => setSubmitting(false))
     }
 
     return (
@@ -42,26 +43,27 @@ const SignUpForm = () => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 validate={(values) => {
-                    const errors = {
+                    setWebError('')
+                    const errors: FormValuesProps = {
                         username: '',
                         email: '',
                         password: '',
-                        confirmPassword: '',
-                    };
+                        confirmPassword: ''
+                    }
 
                     errors.username = validateData(values.username, isValidUsername)
                     errors.email = validateData(values.email, isValidEmail)
                     errors.password = validateData(values.password, isValidPassword)
                     errors.confirmPassword = values.password === values.confirmPassword ? '' : 'Не совпадают'
-                    return errors;
+
+                    if(errors.username || errors.email || errors.password || errors.confirmPassword) return errors
+
+                    return {}
                 }}
             >
-                {({ values, errors, touched, handleBlur, handleChange, isSubmitting, setSubmitting }) => {
+                {({ values, errors, touched, handleBlur, handleChange, isSubmitting }) => {
                     return (
-                        <form className="form" onSubmit={(ev) => {
-                            ev.preventDefault()
-                            handleSubmit(values)
-                        }} noValidate>
+                        <Form className="form" noValidate>
                             <label className="form-group">
                                 <span className="form-group__title">Имя</span>
                                 <Field
@@ -127,7 +129,7 @@ const SignUpForm = () => {
                             </label>
                             {webError ? <div className="form__error">{webError}</div> : null}
                             <button className="form__button" disabled={isSubmitting} type="submit">Зарегистрироваться</button>
-                        </form>
+                        </Form>
                     )
                 }}
             </Formik>

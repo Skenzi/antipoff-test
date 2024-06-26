@@ -13,7 +13,7 @@ export const isValidPassword = (password: string) => {
 }
 
 export const validateData = (value: string, isValid: (payload: string) => boolean) => {
-    if(value === '') {
+    if(!value) {
         return 'Обязательно заполнить'
     }
     if(!isValid(value)) {

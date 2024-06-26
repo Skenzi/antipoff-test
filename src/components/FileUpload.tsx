@@ -1,6 +1,5 @@
 import { ChangeEventHandler, useRef, useState } from "react";
-import { updateAvatar } from "../utils/api";
-import { useAppDispatch, useAppSelectore } from "../hooks/storeHooks";
+import { useAppDispatch } from "../hooks/storeHooks";
 import { avatarHandler } from "../store/slices/userSlice";
 import { getImageBuffer } from '../utils/filesApi';
 
@@ -11,7 +10,6 @@ interface FileUploadProps {
 const UploadFile = ({ classess = '' }: FileUploadProps) => {
     const [fileError, setFileError] = useState<string>('')
     const refInput = useRef<HTMLInputElement>(null)
-    const authorizedUser = useAppSelectore((state) => state.userState.user)
     const dispatch = useAppDispatch();
 
     const triggerChangeAvatar = () => {
@@ -25,7 +23,7 @@ const UploadFile = ({ classess = '' }: FileUploadProps) => {
         const file = event.currentTarget.files[0];
         const fileResponse = getImageBuffer(file);
         fileResponse.then((data) => {
-            //updateAvatar(authorizedUser.id, file); обновление данных на сервере, reges не принимает
+            //логика обновления данных на сервере
             dispatch(avatarHandler(data))
         }).catch((error) => {
             setFileError(error)
